@@ -1,0 +1,22 @@
+artifact_path: /home/ubuntu/notebooks/03-expriments-tracking/mlruns/1/models/m-4197f660dbee4d269ce21b3a3c221367/artifacts
+flavors:
+  python_function:
+    data: model.xgb
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.xgboost
+    python_version: 3.13.5
+  xgboost:
+    code: null
+    data: model.xgb
+    model_class: xgboost.core.Booster
+    model_format: xgb
+    xgb_version: 3.0.4
+mlflow_version: 3.3.2
+model_id: m-4197f660dbee4d269ce21b3a3c221367
+model_size_bytes: 3706742
+model_uuid: m-4197f660dbee4d269ce21b3a3c221367
+prompts: null
+run_id: 2d4e0ccf12d246eda154181af1f175a9
+utc_time_created: '2025-09-02 11:43:29.201561'

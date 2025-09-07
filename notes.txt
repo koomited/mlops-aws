@@ -1,0 +1,146 @@
+# Commands to keep
+mlflow ui --backend-store-uri sqlite:///mlflow.db
+
+
+sudo lsof -i:5000
+sudo fuser -k 5000/tcp
+
+# for problem with hyperot: pkg_ressources
+pip install --upgrade setuptools
+#Model 
+Pay attention to the model uri because its's related to the artifaact path
+
+# Another way running the server not the ui
+mlflow server --backend-store-uri sqlite:///backend.db --default-artifact-root ./artifacts_local
+
+#Public DNS
+Pay attention to the public DNS it can change anytime
+
+# Change how my command line looks like
+PS1=">"
+
+# launch Flask with production
+gunicorn --bind=0.0.0.0:9696 predict:app
+
+docker build -t ride-duration-prediction-service:v1
+
+docker run -it --rm -p 9696:9696 ride-duration-prediction-service:v1
+
+
+
+ride_events
+```bash
+KINESIS_STREAM_INPUT=ride_events
+aws kinesis put-record\
+    --stream-name ${KINESIS_STREAM_INPUT}\
+    --partition-key 1\
+    --data "Hello, this is a test."
+```
+
+```bash
+KINESIS_STREAM_INPUT=ride_events
+aws kinesis put-record\
+    --stream-name ${KINESIS_STREAM_INPUT}\
+    --partition-key 1\
+    --data '{
+        "ride": {
+    "PULocationID": 130,
+    "DOLocationID": 205,
+    "trip_distance": 3.75
+    },
+    "ride_id": 256
+}'
+```
+
+```bash
+KINESIS_STREAM_INPUT=ride_events
+
+aws kinesis put-record \
+  --stream-name ${KINESIS_STREAM_INPUT} \
+  --partition-key 1 \
+  --cli-binary-format raw-in-base64-out \
+  --data '{
+    "ride": {
+      "PULocationID": 130,
+      "DOLocationID": 205,
+      "trip_distance": 3.75
+    },
+    "ride_id": 156
+  }'
+```
+
+
+
+{
+    "Records": [
+        {
+            "kinesis": {
+                "kinesisSchemaVersion": "1.0",
+                "partitionKey": "1",
+                "sequenceNumber": "49666794466612201538245838469090563173284349306894024706",
+                "data": "Hellothisisatest",
+                "approximateArrivalTimestamp": 1757053991.552
+            },
+            "eventSource": "aws:kinesis",
+            "eventVersion": "1.0",
+            "eventID": "shardId-000000000000:49666794466612201538245838469090563173284349306894024706",
+            "eventName": "aws:kinesis:record",
+            "invokeIdentityArn": "arn:aws:iam::541690257764:role/lambda-kinesis-role",
+            "awsRegion": "us-east-1",
+            "eventSourceARN": "arn:aws:kinesis:us-east-1:541690257764:stream/ride_events"
+        }
+    ]
+}
+
+```python
+import base64
+for record in event["Records"]:
+    encoded_data = record["kinesis"]["data"]
+    decoded_data = base64.b64decode(data_coded).decode('utf-8')
+    print(decoded_data)
+
+```
+
+
+
+KINESIS_STREAM_OUTPUT='ride_predictions'
+SHARD='shardId-000000000000'
+
+SHARD_ITERATOR=$(aws kinesis \
+    get-shard-iterator \
+        --shard-id ${SHARD} \
+        --shard-iterator-type TRIM_HORIZON \
+        --stream-name ${KINESIS_STREAM_OUTPUT} \
+        --query 'ShardIterator' \
+)
+
+RESULT=$(aws kinesis get-records --shard-iterator $SHARD_ITERATOR)
+
+echo ${RESULT} | jq -r '.Records[0].Data' | base64 --decode
+
+docker run -it --rm \
+  -p 8080:8080 \
+  -e PREDICTIONS_STREAM_NAME="ride_predictions" \
+  -e TEST_RUN="True" \
+  stream-model-duration:v1
+
+```bash
+aws ecr create-repository --repository-name duration-model
+```
+Logging in
+
+aws ecr get-login-password --region us-east-1 \
+  | docker login \
+    --username AWS \
+    --password-stdin 541690257764.dkr.ecr.us-east-1.amazonaws.com
+
+
+```bash
+REMOTE_URI="541690257764.dkr.ecr.us-east-1.amazonaws.com/duration-model"
+REMOTE_TAG="v1"
+REMOTE_IMAGE=${REMOTE_URI}:${REMOTE_TAG}
+
+LOCAL_IMAGE="stream-model-duration:v1"
+docker tag ${LOCAL_IMAGE} ${REMOTE_IMAGE}
+docker push ${REMOTE_IMAGE}
+```

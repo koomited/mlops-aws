@@ -1,0 +1,28 @@
+artifact_path: /home/ubuntu/notebooks/03-expriments-tracking/mlruns/1/models/m-ee536e6eff0d4d86816d7bdfc7ebd58c/artifacts
+flavors:
+  python_function:
+    data: model.xgb
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.xgboost
+    python_version: 3.13.5
+  xgboost:
+    code: null
+    data: model.xgb
+    model_class: xgboost.core.Booster
+    model_format: xgb
+    xgb_version: 3.0.4
+is_signature_from_type_hint: false
+mlflow_version: 3.3.2
+model_id: m-ee536e6eff0d4d86816d7bdfc7ebd58c
+model_size_bytes: 3706742
+model_uuid: m-ee536e6eff0d4d86816d7bdfc7ebd58c
+prompts: null
+run_id: 18835927f16246d594e8886864950e34
+signature:
+  inputs: '[{"type": "tensor", "tensor-spec": {"dtype": "float64", "shape": [-1, 13221]}}]'
+  outputs: '[{"type": "tensor", "tensor-spec": {"dtype": "float32", "shape": [-1]}}]'
+  params: null
+type_hint_from_example: false
+utc_time_created: '2025-09-02 10:26:55.014000'
