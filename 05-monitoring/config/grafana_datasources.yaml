@@ -7,7 +7,7 @@ datasources:
     type: postgres
     access: proxy
     url: db.:5432
-    database: mydatabase
+    database: pg_database
     user: postgres
     secureJsonData:
       password: password
