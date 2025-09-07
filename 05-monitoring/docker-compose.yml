@@ -14,7 +14,6 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: example
-      POSTGRES_DB: pg_database
     networks:
       - back-tier
     ports:

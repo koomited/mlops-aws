@@ -18,5 +18,5 @@ providers:
     allowUiUpdates: false
 
     options:
-      path: opt/grafana/dashboards
+      path: /opt/grafana/dashboards
       foldersFromFilesStructure: True
