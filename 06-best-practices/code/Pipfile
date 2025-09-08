@@ -1,0 +1,16 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+boto3 = "==1.40.22"
+mlflow = "==3.3.2"
+scikit-learn = "==1.6.1"
+
+[dev-packages]
+pytest = "*"
+deepdiff = "*"
+
+[requires]
+python_version = "3.13"
