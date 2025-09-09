@@ -6,13 +6,20 @@ import mlflow
 
 
 
-
+def get_model_location(run_id):
+    model_location = os.getenv("MODEL_LOCATION")
+    
+    if model_location is not None:
+        return model_location
+    model_bucket = os.getenv("MODEL_BUCKET", "koomi-mlflow-artifacts-remote")
+    experiment_id = os.getenv("MLFLOW_EXPERIMENT_ID", 2)
+    model_location = f"s3://{model_bucket}/{experiment_id}/models/{run_id}/artifacts"
+    return model_location
 
 
 def load_model(run_id):
-    model_bucket = os.getenv("MODEL_BUCKET", "koomi-mlflow-artifacts-remote")
-    model_uri = f"s3://{model_bucket}/2/models/{run_id}/artifacts"
-    model = mlflow.pyfunc.load_model(model_uri)
+    model_location = get_model_location(run_id)
+    model = mlflow.pyfunc.load_model(model_location)
     return model
     
 def base64_decode(encoded_data):

@@ -1,0 +1,22 @@
+artifact_path: s3://koomi-mlflow-artifacts-remote/2/models/m-73b1fea3e7c0444ebff7192f9d16ed53/artifacts
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.pkl
+    predict_fn: predict
+    python_version: 3.13.5
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: cloudpickle
+    sklearn_version: 1.6.1
+mlflow_version: 3.3.2
+model_id: m-73b1fea3e7c0444ebff7192f9d16ed53
+model_size_bytes: 19104453
+model_uuid: m-73b1fea3e7c0444ebff7192f9d16ed53
+prompts: null
+run_id: 808c4e3ce88c4edcb3587442b13678ed
+utc_time_created: '2025-09-05 12:27:06.538651'
