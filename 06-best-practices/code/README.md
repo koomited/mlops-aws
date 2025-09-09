@@ -124,3 +124,6 @@ aws --endpoint-url http://localhost:4566 kinesis get-records \
 ```bash
 pylint --recursive=y .
 ```
+```bash
+black --diff .
+```
