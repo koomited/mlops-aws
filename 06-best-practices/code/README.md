@@ -41,7 +41,7 @@ aws --endpoint-url=http://localhost:4566 \
 ```
 
 ```bash
-aws --endpoint-url=http://localhost:4566 kinesis delete-stream --stream-name ride_predictions 
+aws --endpoint-url=http://localhost:4566 kinesis delete-stream --stream-name ride_predictions
 ```
 
 ```bash
@@ -82,9 +82,9 @@ aws --endpoint-url http://localhost:4566 kinesis get-shard-iterator \
     --stream-name ${PREDICTION_STREAM_NAME} \
     --query 'ShardIterator'
 
-```        
+```
 
-```bash 
+```bash
 "AAAAAAAAAAEW4iLdPkg0vYVepmNWBc3SuiKea+nVqru0m6S0Hxj3m1WzoOm+6wlz+E7YIWWFZA/6O/wu/VMki7WIpnrnrCoclmOU2cOyiV7pe9oW5WLUEn3TCYbjc46cWw5c3nuDJ9fDahfy9kiu/5PDNMyFL1MGxgQDsvMZ+f8R8JIT/DV5exwKA4feaahl5fc0HmNMSOYw9fb0+hOZZ/YHYfu424Xe"
 ```
 

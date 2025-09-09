@@ -17,5 +17,5 @@ model_service = model.init(
 
 
 def lambda_handler(event, context):
-    # pylint:disable=unsed-argument
+    # pylint:disable=unused-argument
     return model_service.lambda_handler(event)

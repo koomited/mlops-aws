@@ -9,11 +9,12 @@ mlflow = "==3.3.2"
 scikit-learn = "==1.6.1"
 
 [dev-packages]
-pytest = "*"
 deepdiff = "*"
 pylint = "*"
 black = "*"
 isort = "*"
+pre-commit = "*"
+pytest = "*"
 
 [requires]
 python_version = "3.13"
