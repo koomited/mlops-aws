@@ -4,12 +4,18 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - PREDICTIONS_STREAM_NAME=ride_predictions
-      - TEST_RUN=True
+      - PREDICTIONS_STREAM_NAME=${PREDICTIONS_STREAM_NAME}
       - MODEL_LOCATION=/app/model
       - RUN_ID=Test123
+      - KINESIS_ENDPOINT_URL=http://kinesis:4566/
     volumes:
       - "./model:/app/model"
+  kinesis:
+    image: localstack/localstack
+    ports:
+      - 4566:4566
+    environment:
+      - SERVICES=kinesis
 
 
 

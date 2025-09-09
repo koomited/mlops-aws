@@ -1,7 +1,7 @@
+import os
 import json
 import base64
 import boto3
-import os
 import mlflow
 
 
@@ -71,29 +71,47 @@ class ModelService():
                 }
             # if not TEST_RUN:
             #
-            for callback in self.callbacks:
-                callback(predictions_events)
-            
             predictions_events.append(prediction_event)
+        for callback in self.callbacks:
+            callback(predictions_events)
+            
 
         return {
             "predictions":predictions_events
         }
 
 class KinesisCallback():
+    
     def __init__(self, kinesis_client, prediction_stream_name):
         self.kinesis_client = kinesis_client
         self.prediction_stream_name = prediction_stream_name
         
-    def put_record(self, prediction_event):
-        ride_id = prediction_event["prediction"]["ride_id"]
-        
-        self.kinesis_client.put_record(
-            StreamName=self.prediction_stream_name,
-            Data=json.dumps(prediction_event),
-            PartitionKey=str(ride_id)
-        )
+    def put_record(self, prediction_events):
+        for prediction_event in prediction_events:
+            ride_id = prediction_event["prediction"]["ride_id"]
+            
+            self.kinesis_client.put_record(
+                StreamName=self.prediction_stream_name,
+                Data=json.dumps(prediction_event),
+                PartitionKey=str(ride_id)
+            )
 
+
+def create_kinesis_client():
+    """
+    Create a kinesis client
+    """
+    endpoint_url = os.getenv("KINESIS_ENDPOINT_URL")
+    if endpoint_url is None:
+        return boto3.client(
+        "kinesis",
+        region_name="us-east-1"  
+        )
+    return boto3.client(
+        "kinesis", region_name="us-east-1" , endpoint_url=endpoint_url 
+        )
+        
+    
 
 def init(prediction_stream_name:str, run_id:str, test_run:bool):
     
@@ -103,11 +121,9 @@ def init(prediction_stream_name:str, run_id:str, test_run:bool):
     callbacks = []
     
     if not test_run:
-        kinesis_client = boto3.client(
-        "kinesis",
-        region_name="us-east-1"  
-    )
-
+        
+        kinesis_client = create_kinesis_client()
+        
         kinesis_callbacks = KinesisCallback(kinesis_client, prediction_stream_name)  
         callbacks.append(kinesis_callbacks.put_record)
         

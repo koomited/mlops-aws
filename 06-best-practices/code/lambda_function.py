@@ -5,12 +5,9 @@ import os
 
 RUN_ID = os.getenv("RUN_ID", "m-73b1fea3e7c0444ebff7192f9d16ed53")
 
-TEST_RUN = os.getenv("TEST_RUN", "false").lower() == "true"
+TEST_RUN = os.getenv('TEST_RUN', 'False') == 'True'
 
 PREDICTIONS_STREAM_NAME = os.getenv("PREDICTIONS_STREAM_NAME", "ride_predictions")
-
-
-
 
 
 
@@ -21,7 +18,7 @@ model_service = model.init(
 )
 
 def lambda_handler(event, context):
-    
+    #pylint:disable=unsed-argument
     return model_service.lambda_handler(event)
     
     
