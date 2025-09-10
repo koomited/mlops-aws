@@ -127,3 +127,7 @@ pylint --recursive=y .
 ```bash
 black --diff .
 ```
+To prepare the project run:
+```bash
+make setup
+```

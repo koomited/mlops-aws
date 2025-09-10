@@ -4,11 +4,17 @@ set -e
 
 cd "$(dirname "$0")"
 
-export LOCAL_TAG=$(date +"%Y-%m-%d-%H-%M")
-export LOCAL_IMAGE_NAME="stream-model-duration:${LOCAL_TAG}"
-export PREDICTIONS_STREAM_NAME="ride_predictions"
+if [ "${LOCAL_IMAGE_NAME}" == "" ]; then
+  echo "LOCAL_IMAGE_NAME is not set, building a new image with tag ${LOCAL_IMAGE_NAME}"
+  LOCAL_TAG=$(date +"%Y-%m-%d-%H-%M")
+  export LOCAL_IMAGE_NAME="stream-model-duration:${LOCAL_TAG}"
+  docker build -t ${LOCAL_IMAGE_NAME} ..
 
-docker build -t ${LOCAL_IMAGE_NAME} ..
+else
+  echo "No need to build image ${LOCAL_IMAGE_NAME}"
+
+fi
+export PREDICTIONS_STREAM_NAME="ride_predictions"
 
 docker-compose up -d
 
